@@ -83,3 +83,5 @@ class Companies(Base):
     company_id = Column(Integer,primary_key=True)
     company_name = Column(String)
     img_url = Column(String)
+    
+# TEAM 0x00
