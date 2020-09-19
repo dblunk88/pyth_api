@@ -1,3 +1,5 @@
+NOTE: the requirement freeze is populated with quite a bit of unneeded dependencies. Will have to clean this up, as it was a snapshot of our dev environment (we have experimented quite a bit with different kind of potential implementations)
+
 This is the API for pyth.app. The pip requirements are in requirements.txt.
 You will need to pass environment variables in terminal (or command-line, depending on your OS).
 In Linux this will look like this:
@@ -11,3 +13,4 @@ The configuration is currently in DEBUG mode, which can be changed in api.py __m
 To run, either run api.py with python3 or by running:
 
 flask run --host=0.0.0.0 --cert=/etc/letsencrypt/live/api.pyth.app/fullchain.pem --key=/etc/letsencrypt/live/api.pyth.app/privkey.pem
+
