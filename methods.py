@@ -186,3 +186,4 @@ def formatResponse(query):
     resp.headers["Access-Control-Allow-Credentials"] = True
 
     return resp
+# TEAM 0x00
