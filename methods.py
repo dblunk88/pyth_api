@@ -28,8 +28,13 @@ def send_form(user_id,form_id):
 
 def submit_form(user_id,form_id,data):
     current_pending = session.query(Users.pending_forms).filter(Users.uid == user_id).one()
+    current_completed = session.query(Users.completed_forms).filter(Users.uid == user_id).one()
 
     new_completed = [int(form_id)]
+    for form in current_completed[0]:
+        if int(form) not in new_completed and int(form_id) != int(form):
+            new_completed.append(int(form))
+
     new_pending = []
     for form in current_pending[0]:
         if int(form) not in new_pending and int(form_id) != int(form):
@@ -52,7 +57,7 @@ def submit_form(user_id,form_id,data):
         extra_data = session \
             .query(Companies.company_name,
                    Assessment.title,
-                   Users.user_id,
+                   Users.uid,
                    Assessment.assessment_id,
                    Companies.company_id) \
             .filter(Users.uid == user_id,Users.company_id == Companies.company_id,
@@ -60,7 +65,7 @@ def submit_form(user_id,form_id,data):
             .one()
 
         results = Results()
-        results.user_id = extra_data[2]
+        results.user_uid = extra_data[2]
         results.category = extra_data[1]
         results.parent_company = extra_data[0]
         results.value = int(round(value))
@@ -184,6 +189,7 @@ def formatResponse(query):
 
     resp.headers["Access-Control-Allow-Origin"] = "*"
     resp.headers["Access-Control-Allow-Credentials"] = True
+    resp.headers["Access-Control-Allow-Headers"] = "*"
+    resp.headers["Access-Control-Allow-Methods"] = ["GET", "POST"]
 
     return resp
-# TEAM 0x00

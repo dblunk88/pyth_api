@@ -43,10 +43,9 @@ class Results(Base):
     parent_company = Column(String)
     value = Column(Integer)
     answer_type_id = Column(Integer,ForeignKey("answer_type.answer_type_id"))
-    user_id = Column(Integer,ForeignKey("users.user_id"))
+    user_uid = Column(Integer,ForeignKey("users.uid"))
     category = Column(String)
-    assessment_id = Column(Integer,ForeignKey("assessment.assessment_id"))
-
+    assessment_id = Column(Integer, ForeignKey("assessment.assessment_id"))
 
 class User_Type(Base):
     __tablename__ = 'user_type'
@@ -58,9 +57,8 @@ class User_Type(Base):
 class Users(Base):
     __tablename__ = 'users'
     __table_args__ = {'extend_existing': True}
-    user_id = Column(Integer,primary_key=True)
+    uid = Column(Integer,primary_key=True)
     username = Column(String)
-    uid = Column(String)
     user_type_id = Column(Integer,ForeignKey("user_type.user_type_id"))
     completed_forms = Column(ARRAY(Integer))
     pending_forms = Column(ARRAY(Integer))
@@ -83,5 +81,4 @@ class Companies(Base):
     company_id = Column(Integer,primary_key=True)
     company_name = Column(String)
     img_url = Column(String)
-    
-# TEAM 0x00
+
