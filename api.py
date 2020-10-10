@@ -8,6 +8,27 @@ from methods import get_forms,get_questions,get_users,get_policy_holders_by_comp
 from settings import app
 
 
+@app.route('/pythapi/authorized/api/<route>',methods=['OPTIONS'])
+def authorized_options(route):
+    if route == "submitForm":
+        resp = Response(
+            status=200,
+            mimetype='application/json')
+
+        resp.headers["Access-Control-Allow-Origin"] = "https://pyth.app"
+        resp.headers["Access-Control-Allow-Credentials"] = True
+        resp.headers["Access-Control-Max-Age"] = 60
+        resp.headers["Access-Control-Allow-Headers"] = ["origin", "content-type", "accept"]
+        resp.headers["Access-Control-Allow-Methods"] = ["POST", "OPTIONS"]
+
+        return resp
+
+    else:
+        return Response(
+            response=json.dumps("The route you specified was not found"),
+            status=404)
+
+
 @app.route('/pythapi/authorized/api/<route>',methods=['POST'])
 def authorized_post(route):
     if route == "sendForm":
@@ -20,7 +41,6 @@ def authorized_post(route):
         form_id = request.args.get('formId')
         data = request.get_json()
         return submit_form(user_id, form_id, data)
-
 
     else:
         return Response(
@@ -79,9 +99,5 @@ def unauthorized(route):
             status=404)
 
 
-
-
-
 if __name__ == '__main__':
     app.run(debug=True,host="0.0.0.0",ssl_context=('/etc/letsencrypt/live/api.pyth.app/fullchain.pem','/etc/letsencrypt/live/api.pyth.app/privkey.pem'))
-# TEAM 0x00
